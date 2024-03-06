@@ -1,8 +1,12 @@
 <script>
+  import Board from "./components/Board.svelte";
+  import Keyboard from "./components/Keyboard.svelte";
 </script>
 
 <main>
   <h1>Jordle</h1>
+  <Board />
+  <Keyboard />
 </main>
 
 <style>
