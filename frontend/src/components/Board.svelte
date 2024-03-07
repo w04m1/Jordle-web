@@ -1,14 +1,23 @@
 <script>
-  import { guesses } from "../store.js";
+  import { currentGuess, guesses, attemptNumber } from '../store.js';
 
-  let rows = [];
-  $: $guesses, (rows = [...$guesses]);
+  let displayRows = Array(5)
+    .fill(null)
+    .map(() => Array(5).fill(''));
+
+  $: $guesses.forEach((guess, index) => {
+    displayRows[index] = guess.padEnd(5, ' ').split('');
+  });
+
+  $: if ($attemptNumber < 5) {
+    displayRows[$attemptNumber] = $currentGuess.padEnd(5, ' ').split('');
+  }
 </script>
 
 <div class="board">
-  {#each rows as row, i}
+  {#each displayRows as row, i}
     <div class="row">
-      {#each row.split("") as letter, j}
+      {#each row as letter, j}
         <div class="cell">{letter}</div>
       {/each}
     </div>
@@ -17,12 +26,26 @@
 
 <style>
   .board {
-    /* TODO: board styles */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 3vh;
   }
   .row {
-    /* TODO: row styles */
+    display: flex;
+    justify-content: center;
+    padding: 0.5vh 0;
   }
   .cell {
-    /* TODO: cell styles */
+    width: 7vh;
+    height: 7vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0.5vh 0.5vh;
+    border: 0.3vh solid #ccc;
+    border-radius: 2vh;
+    font-size: 2rem;
+    background-color: #1a1a1a;
   }
 </style>
